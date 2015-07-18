@@ -2,12 +2,12 @@ program Smart_Buy_by_Hieu;
 uses crt;
 var b,c,paid_1,paid_2,quality,paid_for_good,paid_for_med: array[1..10] of byte;
 	own: array[1..10] of boolean;
-	i,now,pay,good_own, bad_own,med_own,money,max_for_good,max_for_med: byte;
+	i,now,pay,good_own,med_own,money,max_for_good,max_for_med: byte;
 function rate(b,c:byte):byte;
 	begin
-	if (b>=5) and (c>=4) then exit(1)
-		else if (b>=3) or (c>=3) then exit(2)
-			 else exit(3);
+	if (b>=5) and (c>=4) then rate:=1
+		else if (b>=3) or (c>=3) then rate:=2;
+	if (b<=2) and (c<=2) then rate:=3;
 	end;
 procedure read_input; {đọc vào lượt hiện tại, thông số tank hiện đấu, số tiền đã trả và thông số tank đã đấu}
 	var fi: text;
@@ -31,7 +31,7 @@ procedure write_output;
 	end;
 procedure cal_own_and_qual; {tính toán chất lượng và sở hữu, số tiền còn lại}
 	begin
-	good_own:=0;bad_own:=0;med_own:=0; money:=100;{khởi tạo giá trị}
+	good_own:=0;med_own:=0; money:=100;{khởi tạo giá trị}
 	if now>1 then
 		for i:=1 to now-1 do
 			begin
@@ -45,11 +45,11 @@ procedure cal_own_and_qual; {tính toán chất lượng và sở hữu, số ti
 			if own[i] then
 				begin
 				if quality[i]=1 then inc(good_own); {tính số xe tốt đã sở hữu}
-				if quality[i]=2 then inc(med_own) 
-				else inc(bad_own);
+				if quality[i]=2 then inc(med_own) ;
 				end;
-			end
-	else quality[1]:=rate(b[1],c[1]);
+			end;
+	quality[now]:=rate(b[now],c[now]);
+	quality[1]:=rate(b[1],c[1]);
 	end;
 procedure review; {khảo sát $ tìm ra giá của đối phương, hiện tại là $ trả cho xe tốt}
 	var j,k:integer;
@@ -77,14 +77,23 @@ procedure review; {khảo sát $ tìm ra giá của đối phương, hiện tạ
 		end;
 	end;
 procedure pay_for_good;
-	var m: byte;
+	var m,num: byte; 
 	begin
 	m:=money-max_for_good;
+	num:=0;
 	if good_own<=2 then {sở hữu ít tank tốt thì mua}
 		begin
-		if m<=0 then pay:=money;
-		if(m<5) and (m>0) then pay:=money+m;
-		if m>5 then pay:=max_for_good+5;
+		for i:=1 to now-1 do if quality[i]=1 then inc(num);
+		if  num=0 then
+			begin
+			if money<35 then pay:=money
+			else pay:=35;
+			end
+		else begin
+			if m<=0 then pay:=money;
+			if(m<5) and (m>0) then pay:=money+m;
+			if m>5 then pay:=max_for_good+5;
+			end;
 		end
 	else pay:=round(money/(10-now)); {nhiều hơn 2 tank tốt thì mua với giá trung bình}
 	end;
@@ -110,8 +119,17 @@ procedure pay_for_now;
 	end;
 procedure info_show;
 	begin
-	writeln(pay);
-	writeln('Rate: ',quality[now])
+	writeln('Luot hien tai: ',now);
+	writeln('Thong so: ',b[now], ' ',c[now]);
+	writeln('Danh gia: ',quality[now]);
+	writeln('So tien dang co: ',money);
+	writeln('Mua voi gia: ',pay);
+	writeln('Lich su: ');
+	for i:=1 to now-1 do 
+		begin
+		write(b[i],' ',c[i]);
+		if own[i] then writeln(' - so huu!');
+		end;
 	end;
 begin
 read_input;
@@ -119,5 +137,6 @@ cal_own_and_qual;
 review;
 pay_for_now;
 write_output;
+info_show;
 readln;
 end.
