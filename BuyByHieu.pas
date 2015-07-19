@@ -17,7 +17,7 @@ procedure read_input;
 		begin
 		for i:=1 to 10 do
 		readln(fi,a[i],b[i],c[i]);
-		readln(now);
+		readln(fi,now);
 		if now>1 then
 			for i:=1 to now-1 do
 				readln(fi,paid_1[i],paid_2[i]);
@@ -125,5 +125,4 @@ cal_own_and_qual;
 review;
 pay_for_now;
 write_output;
-readln;
 end.
