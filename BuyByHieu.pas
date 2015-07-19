@@ -31,7 +31,7 @@ procedure write_output;
 	write(fo,pay);
 	close(fo);
 	end;
-procedure cal_own_and_qual; {tính toán chất lượng và sở hữu, số tiền còn lại}
+procedure cal_own_and_qual;
 	begin
 	good_own:=0;med_own:=0; money:=100;{khởi tạo giá trị}
 	if now>1 then
@@ -46,14 +46,14 @@ procedure cal_own_and_qual; {tính toán chất lượng và sở hữu, số ti
 			quality[i]:=rate(b[i],c[i]);
 			if own[i] then
 				begin
-				if quality[i]=1 then inc(good_own); {tính số xe tốt đã sở hữu}
+				if quality[i]=1 then inc(good_own);
 				if quality[i]=2 then inc(med_own) ;
 				end;
 			end;
 	quality[now]:=rate(b[now],c[now]);
 	quality[1]:=rate(b[1],c[1]);
 	end;
-procedure review; {khảo sát $ tìm ra giá của đối phương, hiện tại là $ trả cho xe tốt}
+procedure review;
 	var j,k:integer;
 	begin
 	if now>1 then
@@ -97,7 +97,7 @@ procedure pay_for_good;
 			if m>5 then pay:=max_for_good+5;
 			end;
 		end
-	else pay:=round(money/(10-now)); {nhiều hơn 2 tank tốt thì mua với giá trung bình}
+	else pay:=round(money/(10-now));
 	end;
 procedure pay_for_med;
 	var m:byte;
