@@ -1,7 +1,0 @@
-File buy.inp
-dòng 1: lượt hiện tại(k), thông số b,c
-k-1 dòng tiếp: thông số b,c đã đấu giá, giá đã ra của đội 1, đội 2
-* Chú ý:
- - CT buy của tớ thì đội 1 là chính nó, đội 2 là cậu
- - Với k-1 dòng in thông số những xe đã đấu thì in theo thứ tự thời gian
- tức là dòng thứ 2 chính là dòng của xe đấu giá đầu tiên, tiếp theo là xe thứ 2, thứ 3..
