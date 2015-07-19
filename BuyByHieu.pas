@@ -33,7 +33,7 @@ procedure write_output;
 	end;
 procedure cal_own_and_qual;
 	begin
-	good_own:=0;med_own:=0; money:=100;{khởi tạo giá trị}
+	good_own:=0;med_own:=0; money:=100;
 	if now>1 then
 		for i:=1 to now-1 do
 			begin
@@ -72,10 +72,19 @@ procedure review;
 				paid_for_med[k]:=paid_2[i];
 				end;
 			end;
-		if j>=1 then max_for_good:=paid_for_good[1]; 
-		if k>=1 then max_for_med:=paid_for_med[1];
-		if j>=2 then for i:=2 to j do if paid_for_good[i]>max_for_good then max_for_good:=paid_for_good[i];
-		if k>=2 then for i:=2 to k do if paid_for_med[i]>max_for_med then max_for_med:=paid_for_med[i];
+		max_for_good:=0;max_for_med:=0;
+		if j=1 then max_for_good:=paid_for_good[1]; 
+		if k=1 then max_for_med:=paid_for_med[1];
+		if j>=2 then for i:=1 to j do 
+			begin
+			max_for_good:=paid_for_good[1]; 
+			if paid_for_good[i]>max_for_good then max_for_good:=paid_for_good[i];
+			end;
+		if k>=2 then for i:=1 to k do 
+			begin
+			max_for_med:=paid_for_med[1];
+			if paid_for_med[i]>max_for_med then max_for_med:=paid_for_med[i];
+			end;
 		end;
 	end;
 procedure pay_for_good;
@@ -83,7 +92,7 @@ procedure pay_for_good;
 	begin
 	m:=money-max_for_good;
 	num:=0;
-	if good_own<=2 then {sở hữu ít tank tốt thì mua}
+	if good_own<=2 then
 		begin
 		for i:=1 to now-1 do if quality[i]=1 then inc(num);
 		if  num=0 then
@@ -97,7 +106,7 @@ procedure pay_for_good;
 			if m>5 then pay:=max_for_good+5;
 			end;
 		end
-	else pay:=round(money/(10-now+1))-1;
+	else pay:=round(money/(10-now+1))-1; 
 	end;
 procedure pay_for_med;
 	var m:byte;
@@ -119,10 +128,26 @@ procedure pay_for_now;
 		if quality[now]=3 then pay:=0;
 		end;		 
 	end;
+procedure info_show;
+	begin
+	writeln('Luot hien tai: ',now);
+	writeln('Thong so: ',a[now],' ',b[now], ' ',c[now]);
+	writeln('Danh gia: ',quality[now]);
+	writeln('So tien dang co: ',money);
+	writeln('Mua voi gia: ',pay);
+	writeln('Lich su: ');
+	for i:=1 to now-1 do 
+		begin
+		write(a[i],' ',b[i],' ',c[i]);
+		if own[i] then writeln(' - so huu!');
+		end;
+	end;
 begin
 read_input;
 cal_own_and_qual;
 review;
 pay_for_now;
 write_output;
+info_show;
+readln;
 end.
