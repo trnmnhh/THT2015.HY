@@ -1,6 +1,6 @@
 program Smart_Buy_by_Hieu;
 uses crt;
-var b,c,paid_1,paid_2,quality,paid_for_good,paid_for_med: array[1..10] of byte;
+var a,b,c,paid_1,paid_2,quality,paid_for_good,paid_for_med: array[1..10] of byte;
 	own: array[1..10] of boolean;
 	i,now,pay,good_own,med_own,money,max_for_good,max_for_med: byte;
 function rate(b,c:byte):byte;
@@ -9,16 +9,18 @@ function rate(b,c:byte):byte;
 		else if (b>=3) or (c>=3) then rate:=2;
 	if (b<=2) and (c<=2) then rate:=3;
 	end;
-procedure read_input; {đọc vào lượt hiện tại, thông số tank hiện đấu, số tiền đã trả và thông số tank đã đấu}
+procedure read_input;
 	var fi: text;
 	begin
 	assign(fi,'buy.inp'); reset(fi);
 	while not eof(fi)do
 		begin
-		readln(fi,now,b[now],c[now]);
+		for i:=1 to 10 do
+		readln(fi,a[i],b[i],c[i]);
+		readln(now);
 		if now>1 then
 			for i:=1 to now-1 do
-				readln(fi,b[i],c[i],paid_1[i],paid_2[i]);
+				readln(fi,paid_1[i],paid_2[i]);
 		end;
 	close(fi);
 	end;
@@ -120,14 +122,14 @@ procedure pay_for_now;
 procedure info_show;
 	begin
 	writeln('Luot hien tai: ',now);
-	writeln('Thong so: ',b[now], ' ',c[now]);
+	writeln('Thong so: ',a[now],' ',b[now], ' ',c[now]);
 	writeln('Danh gia: ',quality[now]);
 	writeln('So tien dang co: ',money);
 	writeln('Mua voi gia: ',pay);
 	writeln('Lich su: ');
 	for i:=1 to now-1 do 
 		begin
-		write(b[i],' ',c[i]);
+		write(a[i],' ',b[i],' ',c[i]);
 		if own[i] then writeln(' - so huu!');
 		end;
 	end;
