@@ -119,26 +119,11 @@ procedure pay_for_now;
 		if quality[now]=3 then pay:=0;
 		end;		 
 	end;
-procedure info_show;
-	begin
-	writeln('Luot hien tai: ',now);
-	writeln('Thong so: ',a[now],' ',b[now], ' ',c[now]);
-	writeln('Danh gia: ',quality[now]);
-	writeln('So tien dang co: ',money);
-	writeln('Mua voi gia: ',pay);
-	writeln('Lich su: ');
-	for i:=1 to now-1 do 
-		begin
-		write(a[i],' ',b[i],' ',c[i]);
-		if own[i] then writeln(' - so huu!');
-		end;
-	end;
 begin
 read_input;
 cal_own_and_qual;
 review;
 pay_for_now;
 write_output;
-info_show;
 readln;
 end.
