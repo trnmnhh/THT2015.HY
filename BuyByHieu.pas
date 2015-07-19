@@ -97,7 +97,7 @@ procedure pay_for_good;
 			if m>5 then pay:=max_for_good+5;
 			end;
 		end
-	else pay:=round(money/(10-now-1))-1;
+	else pay:=round(money/(10-now+1))-1;
 	end;
 procedure pay_for_med;
 	var m:byte;
